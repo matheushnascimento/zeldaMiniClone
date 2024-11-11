@@ -9,10 +9,6 @@ public class Game extends Canvas implements Runnable {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 
-    public void run() {
-
-    }
-
     public static void main(String[] args) {
         Game game = new Game();
         JFrame frame = new JFrame();
@@ -25,5 +21,13 @@ public class Game extends Canvas implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// finalizar processo Java quando JFrame for finalizado
         frame.setVisible(true);
 
+        new Thread(game).start();
+
+    }
+
+    public void run() {
+        while (true) { // loop infinito do jogo
+            System.out.println("Calling game looping!");
+        }
     }
 }

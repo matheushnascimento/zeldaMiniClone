@@ -10,8 +10,7 @@ import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
-    public static int WIDTH = 640, HEIGHT = 480;
-    public static int SCALE = 3;
+    public static int WIDTH = 640, HEIGHT = 480, SCALE = 3;
     public Player player;
     public World world;
 
@@ -25,7 +24,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public void tick() {
         player.tick();
-
     }
 
     public void render() {
@@ -91,6 +89,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             player.down = true;
         }
+
+        if (e.getKeyCode() == KeyEvent.VK_Z) {
+            player.shoot = true;
+        }
     }
 
     @Override
@@ -107,4 +109,5 @@ public class Game extends Canvas implements Runnable, KeyListener {
             player.down = false;
         }
     }
+
 }

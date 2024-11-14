@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JFrame;
 
@@ -13,17 +16,34 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int WIDTH = 640, HEIGHT = 480, SCALE = 3;
     public Player player;
     public World world;
+    public List<Enemy> enemy = new ArrayList<Enemy>();
 
     public Game() {
+        int min = 1, max = 5;
+        int posX = ThreadLocalRandom.current().nextInt(32, 640 - 64);
+        int posY = ThreadLocalRandom.current().nextInt(32, 480 - 64);
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
         this.addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+
         new Spritesheet();
+
         player = new Player(32, 32);
+        for (int i = 0; i < randomNum; i++) {
+            enemy.add(new Enemy(posX, posY));
+            posX = ThreadLocalRandom.current().nextInt(32, 640 - 64);
+            posY = ThreadLocalRandom.current().nextInt(32, 480 - 64);
+
+        }
         world = new World();
     }
 
     public void tick() {
         player.tick();
+
+        for (int i = 0; i < enemy.size(); i++) {
+            enemy.get(i).tick();
+        }
     }
 
     public void render() {
@@ -39,6 +59,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
 
         player.render(g);
+        for (int i = 0; i < enemy.size(); i++) {
+            enemy.get(i).render(g);
+        }
         world.render(g);
 
         bs.show();
